@@ -1,0 +1,113 @@
+<!-- Add contact trigger modal -->
+<form id="searchform">
+    <button type="button" class="btn btn-primary float-end m-2"
+(click)="search()"
+>
+  Search
+</button>
+    <div class="m-2 float-end">
+        <label for="field" class="form-label">Search By</label>
+        <select id="field" name="field" [(ngModel)]="option" form="searchform"> 
+            <option value = 1>First Name</option>
+            <option value = 2 selected="selected">Last Name</option>
+            <option value = 3>Address</option>
+            <option value = 4>Phone</option>
+        </select>
+        <input type="text" class="form-control" [(ngModel)]="keyword" name="keyword">
+
+</div>
+
+    
+</form>
+<button type="button" class="btn btn-primary float-end m-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+(click)="modalAdd()"
+>
+  Add Contact
+</button>
+
+<table class="table table-striped">
+  <thead>
+    <th>Id</th>
+    <th>Last Name</th>
+    <th>First Name</th>
+    <th>Address</th>
+    <th>Phone</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of contactList$|async">
+      <td>{{item.id}}</td>
+      <td>{{item.lastName}}</td>
+      <td>{{item.firstName}}</td>
+      <td>{{item.address}}</td>
+      <td>{{item.phone}}</td>
+      <td>
+        <button class="btn btn-outline-primary me-2 mb-1"
+        (click)="modalDetails(item)" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+        >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-square" viewBox="0 0 16 16">
+            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+          </svg>
+        </button>
+        <button class="btn btn-outline-primary me-2 mb-1"
+        (click)="modalEdit(item)" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+          </svg>
+        </button>
+        <button class="btn btn-outline-danger me-2 mb-1"
+        (click)="delete(item)"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+          </svg>
+        </button>
+      </td>
+
+    </tr>
+  </tbody>
+</table>
+<button type="button" class="btn btn-primary float-end m-2"
+(click)="nextPage()" *ngIf="hasNext"
+>
+Next Page
+</button>
+<button type="button" class="btn btn-primary float-end m-2"
+(click)="previousPage()" *ngIf="hasPrevious"
+>
+Prevoius Page
+  
+</button>
+
+<div class="alert alert-success" role="alert" id="add-success-alert">
+  Contact successfully added!
+</div>
+
+<div class="alert alert-success" role="alert" id="update-success-alert">
+  Contact successfully updated!
+</div>
+
+<div class="alert alert-success" role="alert" id="delete-success-alert">
+  Contact successfully deleted!
+</div>
+
+<!-- Add or edit contact Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">{{modalTitle}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+        (click)="modalClose()" id="add-edit-modal-close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <app-add-edit-contact [contact]="contact" *ngIf="activateAddEditContactComponent"></app-add-edit-contact>
+        <app-detail-contact [contact]="contact" *ngIf="activateDetailContactComponent && !activateAddEditContactComponent"></app-detail-contact>
+      </div>
+    </div>
+  </div>
+</div>
